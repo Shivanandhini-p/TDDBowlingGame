@@ -14,45 +14,42 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnScoreForEveryRoll() {
-		int actualResult = gameController.rollsScore(1);
-		Assert.assertEquals(1, actualResult);
+	public void shouldReturnFinalScoreForTwoRolls() {
+		int[] rolls = { 5, 5 };
+		spinRolls(rolls);
+		int actualResult = gameController.calculateScoreForEveryRoll();
+		Assert.assertEquals(10, actualResult);
 	}
 
 	@Test
 	public void shouldReturnScoreOfFirstFrameFor2Rolls() {
-		gameController.rollsScore(1);
-		gameController.rollsScore(4);
-		int actualResult = gameController.calculateScore();
+		int[] rolls = { 1, 4 };
+		spinRolls(rolls);
+		int actualResult = gameController.calculateScoreForEveryRoll();
 		Assert.assertEquals(5, actualResult);
 
 	}
 
 	@Test
-	public void shouldReturnScoreOfSecondFrameFor2Rolls() {
-		gameController.rollsScore(3);
-		gameController.rollsScore(5);
-		int actualResult = gameController.calculateScore();
+	public void shouldReturnCumulativeScoreForSecondFrame() {
+		int[] rolls = { 1, 4, 3, 5 };
+		spinRolls(rolls);
+		int actualResult = gameController.calculateScoreForEveryRoll();
 		Assert.assertEquals(13, actualResult);
 	}
 
 	@Test
 	public void shouldReturnTotalScoreintheLastFrame() {
-		gameController.rollsScore(8);
-		gameController.rollsScore(0);
-		int actualResult = gameController.calculateScore();
-		Assert.assertEquals(13, actualResult);
+		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0 };
+		spinRolls(rolls);
+		int actualResult = gameController.calculateScoreForEveryRoll();
+		Assert.assertEquals(62, actualResult);
+	}
+
+	private void spinRolls(int[] rolls) {
+		for (int pins : rolls) {
+			gameController.rollsScore(pins);
+
+		}
 	}
 }
-
-/*
- * 
- * @Test public void shouldReturnScoreAs10PFor2Rolls() { int actualResult =
- * gameController.rolls(2,10); Assert.assertEquals(10, actualResult); }
- * 
- * @Test public void shouldReturnScoreAs5For2Rolls() { int actualResult =
- * gameController.rolls(2,5); Assert.assertEquals(5, actualResult); }
- * 
- * @Test public void shouldReturnScoreAs13For2Rolls() { int actualResult =
- * gameController.rolls(2,5,3); Assert.assertEquals(13, actualResult); }
- */
