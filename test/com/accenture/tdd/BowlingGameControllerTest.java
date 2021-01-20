@@ -14,7 +14,7 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnFinalScoreForTwoRolls() {
+	public void shouldReturnFinalScoreForTwoRolls() throws Exception {
 		int[] rolls = { 5, 5 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -22,16 +22,15 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnScoreOfFirstFrameFor2Rolls() {
+	public void shouldReturnScoreOfFirstFrameFor2Rolls() throws Exception {
 		int[] rolls = { 1, 4 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
 		Assert.assertEquals(5, actualResult);
-
 	}
 
 	@Test
-	public void shouldReturnCumulativeScoreForSecondFrame() {
+	public void shouldReturnCumulativeScoreForSecondFrame() throws Exception {
 		int[] rolls = { 1, 4, 3, 5 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -39,11 +38,18 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnTotalScoreintheLastFrame() {
+	public void shouldReturnTotalScoreintheLastFrame() throws Exception {
 		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
 		Assert.assertEquals(62, actualResult);
+	}
+
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void shouldReturnExceptionWhenRollsExceed20() {
+		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0, 1 };
+		spinRolls(rolls);
+		gameController.calculateScoreForEveryRoll();
 	}
 
 	private void spinRolls(int[] rolls) {
@@ -51,5 +57,9 @@ public class BowlingGameControllerTest {
 			gameController.rollsScore(pins);
 
 		}
+	}
+	@Test
+	public void shouldReturnIndividualScoreForEachFrame() {
+		
 	}
 }

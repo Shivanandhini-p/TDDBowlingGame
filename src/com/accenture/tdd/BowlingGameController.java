@@ -3,7 +3,7 @@ package com.accenture.tdd;
 public class BowlingGameController {
 
 	static int MAXIMUM_FRAMES = 10;
-	static int MAXIMUM_ROLLS = 21;
+	static int MAXIMUM_ROLLS = 20;
 
 	int frameCounter = 0;
 	int rollCount = 0;
