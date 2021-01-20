@@ -14,7 +14,7 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnFinalScoreForTwoRolls() throws Exception {
+	public void shouldReturnFinalScoreForTwoRolls() {
 		int[] rolls = { 5, 5 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -22,7 +22,7 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnScoreOfFirstFrameFor2Rolls() throws Exception {
+	public void shouldReturnScoreOfFirstFrameFor2Rolls() {
 		int[] rolls = { 1, 4 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -30,7 +30,7 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnCumulativeScoreForSecondFrame() throws Exception {
+	public void shouldReturnCumulativeScoreForSecondFrame() {
 		int[] rolls = { 1, 4, 3, 5 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -38,7 +38,7 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnTotalScoreintheLastFrame() throws Exception {
+	public void shouldReturnTotalScoreintheLastFrame() {
 		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0 };
 		spinRolls(rolls);
 		int actualResult = gameController.calculateScoreForEveryRoll();
@@ -58,8 +58,22 @@ public class BowlingGameControllerTest {
 
 		}
 	}
+
 	@Test
-	public void shouldReturnIndividualScoreForEachFrame() {
-		
+	public void shouldReturnIndividualScoreForSecondFrame() {
+		int[] rolls = { 1, 4, 3, 5 };
+		spinRolls(rolls);
+		gameController.calculateScoreForEveryRoll();
+		int actualResult = gameController.getFrameScore(2);
+		Assert.assertEquals(8, actualResult);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void shouldReturnExceptionWhenFramesisZero() {
+		int[] rolls = { 1, 4, 3, 5 };
+		spinRolls(rolls);
+		gameController.calculateScoreForEveryRoll();
+		gameController.getFrameScore(0);
+
 	}
 }
