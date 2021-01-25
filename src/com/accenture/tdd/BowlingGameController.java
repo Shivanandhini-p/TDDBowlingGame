@@ -1,65 +1,38 @@
 package com.accenture.tdd;
 
-import java.awt.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BowlingGameController {
 
 	static int MAXIMUM_FRAMES = 10;
-	static int MAXIMUM_ROLLS = 20;
 
-	int frameCounter = 0;
-	int rollCount = 0;
-	int[] rolls = new int[MAXIMUM_ROLLS];
-	int[] frameScore = new int[MAXIMUM_FRAMES];
-	ArrayList<Integer> frameScoreList = new ArrayList<Integer>();
+	int framenumber = 0;
 	int totalScore = 0;
+	private ArrayList<Integer> frameScoreList = new ArrayList<Integer>(MAXIMUM_FRAMES);
 
-	public int calculateScoreForEveryRoll() {
-		int score = 0;
-		int frameCounter = 0;
-		// for (int frame = 0; frame < 10; frame++) {
-
-		for (int rollsCounter = 0; rollsCounter < rolls.length; rollsCounter++) {
-			// score += rolls[rollsCounter];
-			frameScore[frameCounter] = rolls[rollsCounter] + rolls[(rollsCounter + 1)];
-			frameScoreList.add(frameCounter, frameScore[frameCounter]);
-			totalScore += frameScore[frameCounter];
-			rollsCounter++;
-			frameCounter++;
-
-			// frameCounter++;
-		}
-
-		// }
-		// }
-		return totalScore;
-	}
+	private HashMap<Integer, ArrayList<Integer>> storeScoreValues = new HashMap<>();
 
 	public int getFrameScore(int frameNumber) {
-		int score = 0;
-		// for (int frameScore : frameScoreList) {
-		score = frameScoreList.get(frameNumber - 1);
-		// }
-		return score;
+		return frameScoreList.get(frameNumber - 1);
 	}
 
-	public int rollsScore(int knockedPins) {
-
-		return rolls[rollCount++] = knockedPins;
-
+	public void playGame(int rolls1, int rolls2) {
+		checkIfGameisOver();
+		int scorePerFrame = rolls1 + rolls2;
+		totalScore += scorePerFrame;
+		frameScoreList.add(scorePerFrame);
+		storeScoreValues.put(framenumber + 1, frameScoreList);
 	}
 
-	/*
-	 * public int getIndividualScoreOfFrame(int frameNumber) { int perFrameScore =
-	 * 0;
-	 * 
-	 * if (frameScore.containsKey(frameNumber)) { do { perFrameScore =
-	 * frameScore.get(frameNumber-1); rollCount++;
-	 * 
-	 * } while (rollCount < 2); } return perFrameScore;
-	 * 
-	 * }
-	 */
+	public void checkIfGameisOver() {
+		int frameSize = frameScoreList.size();
+		if (frameSize > 9) {
+			System.out.println("Game is Over");
+		}
+	}
 
+	public int getTotalScore() {
+		return totalScore;
+	}
 }

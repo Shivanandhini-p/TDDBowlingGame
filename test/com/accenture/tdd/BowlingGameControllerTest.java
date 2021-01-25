@@ -1,5 +1,7 @@
 package com.accenture.tdd;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,66 +16,75 @@ public class BowlingGameControllerTest {
 	}
 
 	@Test
-	public void shouldReturnFinalScoreForTwoRolls() {
-		int[] rolls = { 5, 5 };
-		spinRolls(rolls);
-		int actualResult = gameController.calculateScoreForEveryRoll();
-		Assert.assertEquals(10, actualResult);
+	public void shouldReturnTotalScoreofPlayerWhen2RollsArePlayed() {
+		gameController.playGame(1, 4);
+		Assert.assertEquals(5, gameController.getTotalScore());
 	}
 
 	@Test
-	public void shouldReturnScoreOfFirstFrameFor2Rolls() {
-		int[] rolls = { 1, 4 };
-		spinRolls(rolls);
-		int actualResult = gameController.calculateScoreForEveryRoll();
-		Assert.assertEquals(5, actualResult);
+	public void shouldReturnTotalScoreofPlayerWheninFrame2() {
+		gameController.playGame(1, 4);
+		gameController.playGame(3, 5);
+		Assert.assertEquals(13, gameController.getTotalScore());
 	}
 
 	@Test
-	public void shouldReturnCumulativeScoreForSecondFrame() {
-		int[] rolls = { 1, 4, 3, 5 };
-		spinRolls(rolls);
-		int actualResult = gameController.calculateScoreForEveryRoll();
-		Assert.assertEquals(13, actualResult);
-	}
-
-	@Test
-	public void shouldReturnTotalScoreintheLastFrame() {
-		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0 };
-		spinRolls(rolls);
-		int actualResult = gameController.calculateScoreForEveryRoll();
-		Assert.assertEquals(62, actualResult);
-	}
-
-	@Test(expected = ArrayIndexOutOfBoundsException.class)
-	public void shouldReturnExceptionWhenRollsExceed20() {
-		int[] rolls = { 1, 4, 3, 5, 5, 3, 2, 0, 2, 6, 0, 4, 0, 0, 4, 5, 5, 5, 8, 0, 1 };
-		spinRolls(rolls);
-		gameController.calculateScoreForEveryRoll();
-	}
-
-	private void spinRolls(int[] rolls) {
-		for (int pins : rolls) {
-			gameController.rollsScore(pins);
-
-		}
-	}
-
-	@Test
-	public void shouldReturnIndividualScoreForSecondFrame() {
-		int[] rolls = { 1, 4, 3, 5 };
-		spinRolls(rolls);
-		gameController.calculateScoreForEveryRoll();
-		int actualResult = gameController.getFrameScore(2);
+	public void shouldReturnFrameScoreofPlayerWheninFrame2() {
+		gameController.playGame(1, 4);
+		gameController.playGame(3, 5);
+		int frameNumber = 2;
+		int actualResult = gameController.getFrameScore(frameNumber);
 		Assert.assertEquals(8, actualResult);
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void shouldReturnExceptionWhenFramesisZero() {
-		int[] rolls = { 1, 4, 3, 5 };
-		spinRolls(rolls);
-		gameController.calculateScoreForEveryRoll();
-		gameController.getFrameScore(0);
+	@Test
+	public void shouldReturnFrameScoreofPlayerWheninFrame10() {
+		gameController.playGame(1, 4);
+		gameController.playGame(3, 5);
+		gameController.playGame(5, 3);
+		gameController.playGame(2, 0);
+		gameController.playGame(2, 6);
+		gameController.playGame(0, 4);
+		gameController.playGame(0, 0);
+		gameController.playGame(4, 5);
+		gameController.playGame(5, 5);
+		gameController.playGame(8, 0);
+		int frameNumber = 10;
+		int actualResult = gameController.getFrameScore(frameNumber);
+		Assert.assertEquals(8, actualResult);
+	}
+
+	@Test
+	public void shouldReturnTotalScoreOfPlayerintheLastFrame() {
+		gameController.playGame(1, 4);
+		gameController.playGame(3, 5);
+		gameController.playGame(5, 3);
+		gameController.playGame(2, 0);
+		gameController.playGame(2, 6);
+		gameController.playGame(0, 4);
+		gameController.playGame(0, 0);
+		gameController.playGame(4, 5);
+		gameController.playGame(5, 5);
+		gameController.playGame(8, 0);
+		Assert.assertEquals(62, gameController.getTotalScore());
+	}
+
+	@Test
+	public void shouldReturnMessageWhenFrameExceeds10() {
+
+		gameController.playGame(1, 4);
+		gameController.playGame(3, 5);
+		gameController.playGame(5, 3);
+		gameController.playGame(2, 0);
+		gameController.playGame(2, 6);
+		gameController.playGame(0, 4);
+		gameController.playGame(0, 0);
+		gameController.playGame(4, 5);
+		gameController.playGame(5, 5);
+		gameController.playGame(8, 0);
+		gameController.playGame(8, 0);
+		assertTrue("Game is Over", true);
 
 	}
+
 }
